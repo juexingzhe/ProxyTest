@@ -34,11 +34,11 @@ public class ProxyHandler implements InvocationHandler {
 
         if (null == handler) return null;
 
-        String name = method.getClass().getSimpleName();
+        String name = method.getName();
 
-        if (mMethodHashMap.containsKey(name)) {
-            //将onClick方法的调用映射到activity 中的InvokeBtnClick()方法
-            Method realMethod = mMethodHashMap.get(name);
+        //将onClick方法的调用映射到activity 中的InvokeBtnClick()方法
+        Method realMethod = mMethodHashMap.get(name);
+        if (null != realMethod){
             return realMethod.invoke(handler, args);
         }
 

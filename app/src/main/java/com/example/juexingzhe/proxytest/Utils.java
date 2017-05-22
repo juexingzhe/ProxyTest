@@ -1,6 +1,7 @@
 package com.example.juexingzhe.proxytest;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.View;
 
 import java.lang.reflect.InvocationTargetException;
@@ -23,6 +24,7 @@ public class Utils {
 
         for (Method method : declaredMethods) {
             if (method.isAnnotationPresent(onClick.class)) {
+                Log.i("ProxyTest", method.getName());
                 onClick annotation = method.getAnnotation(onClick.class);
                 //获取button id
                 int[] value = annotation.value();
