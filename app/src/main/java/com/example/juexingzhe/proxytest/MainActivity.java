@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
-import com.example.ProxyGeneratorClass;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,7 +16,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //生成Proxy字节码
-        ProxyGeneratorClass.generateClassFile(this.getClass(), "activityProxy");
         Utils.injectEvent(this);
     }
 
