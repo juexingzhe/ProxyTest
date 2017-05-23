@@ -17,6 +17,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         //生成Proxy字节码
         Utils.injectEvent(this);
+        AnimalProxy animalProxy = new AnimalProxy(new Animal());
+        animalProxy.fly();
+        animalProxy.run();
     }
 
     @onClick({R.id.test_btn})
