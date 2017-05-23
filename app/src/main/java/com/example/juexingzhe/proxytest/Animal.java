@@ -8,15 +8,15 @@ import android.util.Log;
 
 public class Animal implements Fly, Run{
 
-    public static final String TAG = "ProxyTest";
+
 
     @Override
     public void fly() {
-        Log.i(TAG, "Animal fly");
+        Log.i(Utils.TAG, "Animal fly");
     }
 
     @Override
     public void run() {
-        Log.i(TAG, "Animal run");
+        Log.i(Utils.TAG, "Animal run");
     }
 }

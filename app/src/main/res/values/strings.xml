@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ProxyTest</string>
+    <string name="bind_click">Bind Click</string>
+    <string name="bind_view">Bind View</string>
 </resources>

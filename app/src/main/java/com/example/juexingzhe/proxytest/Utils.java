@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.util.Log;
 import android.view.View;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -13,6 +14,8 @@ import java.lang.reflect.Proxy;
  */
 
 public class Utils {
+
+    public static final String TAG = "ProxyTest";
 
     public static void injectEvent(Activity activity) {
         if (null == activity) {
@@ -24,7 +27,7 @@ public class Utils {
 
         for (Method method : declaredMethods) {
             if (method.isAnnotationPresent(onClick.class)) {
-                Log.i("ProxyTest", method.getName());
+                Log.i(Utils.TAG, method.getName());
                 onClick annotation = method.getAnnotation(onClick.class);
                 //获取button id
                 int[] value = annotation.value();
@@ -38,18 +41,48 @@ public class Utils {
                 ProxyHandler proxyHandler = new ProxyHandler(activity);
                 Object listener = Proxy.newProxyInstance(listenerType.getClassLoader(), new Class[]{listenerType}, proxyHandler);
 
-
-
                 proxyHandler.mapMethod(methodName, method);
                 try {
-                    //找到Button
+                    for (int id : value) {
+                        //找到Button
+                        Method findViewByIdMethod = activityClass.getMethod("findViewById", int.class);
+                        findViewByIdMethod.setAccessible(true);
+                        View btn = (View) findViewByIdMethod.invoke(activity, id);
+                        //根据listenerSetter方法名和listenerType方法参数找到method
+                        Method listenerSetMethod = btn.getClass().getMethod(listenerSetter, listenerType);
+                        listenerSetMethod.setAccessible(true);
+                        listenerSetMethod.invoke(btn, listener);
+                    }
+
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+    }
+
+    public static void injectView(Activity activity) {
+        if (null == activity) return;
+
+        Class<? extends Activity> activityClass = activity.getClass();
+        Field[] declaredFields = activityClass.getDeclaredFields();
+        for (Field field : declaredFields) {
+            if (field.isAnnotationPresent(InjectView.class)) {
+                //找到InjectView注解的field
+                InjectView annotation = field.getAnnotation(InjectView.class);
+                //找到button的id
+                int value = annotation.value();
+
+                try {
+                    //找到findViewById方法
                     Method findViewByIdMethod = activityClass.getMethod("findViewById", int.class);
                     findViewByIdMethod.setAccessible(true);
-                    View btn = (View) findViewByIdMethod.invoke(activity, value[0]);
-                    //根据listenerSetter方法名和listenerType方法参数找到method
-                    Method listenerSetMethod = btn.getClass().getMethod(listenerSetter, listenerType);
-                    listenerSetMethod.setAccessible(true);
-                    listenerSetMethod.invoke(btn, listener);
+                    findViewByIdMethod.invoke(activity, value);
 
                 } catch (NoSuchMethodException e) {
                     e.printStackTrace();
@@ -61,10 +94,9 @@ public class Utils {
 
 
             }
-
         }
-    }
 
+    }
 
 
 }

@@ -12,9 +12,17 @@
     tools:context="com.example.juexingzhe.proxytest.MainActivity">
 
     <Button
-        android:id="@+id/test_btn"
+        android:id="@+id/bind_view_btn"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/bind_view"/>
+
+    <Button
+        android:id="@+id/bind_click_btn"
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"/>
+        android:text="@string/bind_click"/>
+
 </RelativeLayout>

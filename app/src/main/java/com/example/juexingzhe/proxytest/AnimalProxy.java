@@ -16,13 +16,13 @@ public class AnimalProxy implements Fly, Run{
 
     @Override
     public void fly() {
-        Log.i(Animal.TAG, "In AnimalProxy fly");
+        Log.i(Utils.TAG, "In AnimalProxy fly");
         animal.fly();
     }
 
     @Override
     public void run() {
-        Log.i(Animal.TAG, "In AnimalProxy run");
+        Log.i(Utils.TAG, "In AnimalProxy run");
         animal.run();
 
     }
